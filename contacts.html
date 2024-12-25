@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты - Магазин Автоаксессуаров</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+            font-family: "Verdana", sans-serif; /* Изменено на шрифт с главной страницы */
+            font-weight: normal; /* Сделано менее жирным */
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        main h2 {
+            color: #333;
+        }
+
+        main p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: static; /* Убрана фиксированная позиция, чтобы полоска не перекрывала контент */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="img/slon.jpg" alt="Логотип магазина" class="logo" style="height: 80px;"></a>
+    <h1>Магазин Автоаксессуаров "Наш Слон"</h1>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="contacts.html">Контакты</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Контакты</h2>
+    <p><strong>Адрес:</strong> г. Колпино, ул. Пролетарская, д.36</p>
+    <p><strong>Телефон:</strong> +7 (952) 812</p>
+    <p><strong>Email:</strong> <a href="mailto:info@auto-shop.ru">nashslon@shop.ru</a></p>
+
+    <h2>Как нас найти</h2>
+    <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+</main>
+
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script>
+    function initMap() {
+        const shopCoords = [59.740723, 30.584090]; // Замените на координаты вашего магазина
+
+        const map = new ymaps.Map("map", {
+            center: shopCoords,
+            zoom: 16,
+            controls: ['zoomControl', 'geolocationControl']
+        });
+
+        const placemark = new ymaps.Placemark(shopCoords, {
+            hintContent: 'Магазин Автоаксессуаров',
+            balloonContent: 'Колпино, ул. Пролетарская, д. 36'
+        });
+
+        map.geoObjects.add(placemark);
+    }
+
+    ymaps.ready(initMap);
+</script>
+
+</body>
+</html>

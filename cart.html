@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина - Магазин Автоаксессуаров</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            height: 80px;
+        }
+
+        h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .total {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        .empty-cart {
+            font-size: 1.2em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="img/slon.jpg" alt="Логотип магазина" class="logo"></a>
+    <h1>Корзина</h1>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="contacts.html">Контакты</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Ваши товары</h2>
+    <div id="cart-content">
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Название товара</th>
+                    <th>Цена (руб.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Товары будут добавлены динамически -->
+            </tbody>
+        </table>
+        <p id="total" class="total">Общая стоимость: 0 руб.</p>
+        <button onclick="clearCart()">Очистить корзину</button>
+    </div>
+    <p id="empty-cart-message" class="empty-cart" style="display: none;">Ваша корзина пуста.</p>
+</main>
+
+<script>
+    // Функция для отображения товаров из корзины
+    function displayCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartTableBody = document.querySelector('#cart-table tbody');
+        const totalElement = document.getElementById('total');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const cartContent = document.getElementById('cart-content');
+
+        cartTableBody.innerHTML = ''; // Очистить таблицу перед добавлением данных
+        let total = 0;
+
+        if (cart.length === 0) {
+            cartContent.style.display = 'none';
+            emptyCartMessage.style.display = 'block';
+            return;
+        }
+
+        cartContent.style.display = 'block';
+        emptyCartMessage.style.display = 'none';
+
+        cart.forEach(item => {
+            const row = document.createElement('tr');
+            const nameCell = document.createElement('td');
+            const priceCell = document.createElement('td');
+
+            nameCell.textContent = item.name;
+            priceCell.textContent = item.price;
+
+            row.appendChild(nameCell);
+            row.appendChild(priceCell);
+            cartTableBody.appendChild(row);
+
+            total += item.price;
+        });
+
+        totalElement.textContent = `Общая стоимость: ${total} руб.`;
+    }
+
+    // Функция для очистки корзины
+    function clearCart() {
+        localStorage.removeItem('cart');
+        displayCart();
+    }
+
+    // При загрузке страницы отображаем корзину
+    window.onload = displayCart;
+</script>
+
+</body>
+</html>

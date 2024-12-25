@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар 1 - Магазин Автоаксессуаров</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            height: 80px;
+        }
+
+        h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .product-detail {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .product-detail img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .product-description {
+            margin-left: 20px;
+            max-width: 400px;
+        }
+
+        .product-description p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="img/slon.jpg" alt="Логотип магазина" class="logo"></a>
+    <h1>Магазин Автоаксессуаров "Наш Слон"</h1>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="cart.html">Корзина</a>
+    </nav>
+</header>
+
+<main>
+    <div class="product-detail">
+        <img src="img/product1.jpg" alt="Товар 1">
+        <div class="product-description">
+            <h2>Держатель для телефона</h2>
+            <p>Для комфортного и безопасного использования вашего девайса есть удобная подставка для телефона.</p>
+            <p>Цена: 1000 руб.</p>
+            <button onclick="addToCart('Держатель для телефона', 1000)">Добавить в корзину</button>
+        </div>
+    </div>
+</main>
+
+<script>
+    function addToCart(name, price) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push({ name, price });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(`Товар "${name}" добавлен в корзину!`);
+    }
+</script>
+
+</body>
+</html>

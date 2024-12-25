@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин Автоаксессуаров</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .product-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            height: 80px;
+        }
+
+        h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .cart-link {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .auth-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .auth-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .auth-buttons button:hover {
+            background-color: #444;
+        }
+
+        .auth-container {
+            display: none;
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .auth-container h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .auth-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .auth-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .auth-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .auth-container button:hover {
+            background-color: #444;
+        }
+
+        .welcome-message {
+            text-align: center;
+            font-size: 18px;
+            color: green;
+            margin-top: 20px;
+        }
+
+        /* Стиль для карты */
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-top: 40px;
+        }
+
+        /* Анимация товаров */
+        .product {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .product.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script>
+        function toggleForm(formId) {
+            // Скрыть все формы
+            const forms = document.querySelectorAll('.auth-container');
+            forms.forEach(form => form.style.display = 'none');
+
+            // Показать выбранную форму
+            const formToShow = document.getElementById(formId);
+            if (formToShow) {
+                formToShow.style.display = 'block';
+            }
+        }
+
+        function registerUser() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+
+            if (!username || !password) {
+                alert('Введите имя пользователя и пароль.');
+                return;
+            }
+
+            if (localStorage.getItem(username)) {
+                alert('Пользователь с таким именем уже зарегистрирован.');
+                return;
+            }
+
+            // Сохраняем пользователя в локальное хранилище
+            localStorage.setItem(username, password);
+            alert('Регистрация успешно завершена.');
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+        }
+
+        function loginUser() {
+            const username = document.getElementById('auth-username').value.trim();
+            const password = document.getElementById('auth-password').value;
+
+            if (!username || !password) {
+                alert('Введите имя пользователя и пароль.');
+                return;
+            }
+
+            const storedPassword = localStorage.getItem(username);
+            if (storedPassword === password) {
+                alert('Авторизация успешна!');
+                document.getElementById('auth-form').style.display = 'none';
+                document.getElementById('welcome-message').innerText = `Добро пожаловать, ${username}!`;
+            } else {
+                alert('Неверное имя пользователя или пароль.');
+            }
+        }
+
+        function initMap() {
+            // Координаты магазина
+            const shopCoords = [59.740723, 30.584090]; 
+
+            // Создание карты
+            const map = new ymaps.Map("map", {
+                center: shopCoords,
+                zoom: 16,
+                controls: ['zoomControl', 'geolocationControl']
+            });
+
+            // Добавление метки
+            const placemark = new ymaps.Placemark(shopCoords, {
+                hintContent: 'Магазин Автоаксессуаров',
+                balloonContent: 'Колпино, ул. Пролетарская, д.36' 
+            });
+
+            map.geoObjects.add(placemark);
+        }
+
+        ymaps.ready(initMap);
+
+        // Анимация товаров
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = document.querySelectorAll('.product');
+            products.forEach((product, index) => {
+                setTimeout(() => {
+                    product.classList.add('show');
+                }, index * 200); // Задержка между элементами
+            });
+        });
+    </script>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="img/slon.jpg" alt="Логотип магазина" class="logo"></a>
+    <h1>Магазин Автоаксессуаров "Наш Слон"</h1>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="cart.html" class="cart-link">Корзина</a>
+    </nav>
+</header>
+
+<main>
+    <h2 align="center">Наши товары</h2>
+    <div class="product-list">
+        <div class="product">
+            <a href="product1.html">
+                <img src="img/product1.jpg" alt="Пример товара 1" height="220px" width="220px">
+            </a>
+            <h3><a href="product1.html">Держатель для телефона</a></h3>
+            <p>Цена: 1000 руб.</p>
+        </div>
+        
+        <div class="product">
+            <a href="product2.html">
+                <img src="img/product2.jpg" alt="Пример товара 2" height="220px" width="220px">
+            </a>
+            <h3><a href="product2.html">Уточка в шлеме</a></h3>
+            <p>Цена: 1500 руб.</p>
+        </div>
+
+        <div class="product">
+            <a href="product3.html">
+                <img src="img/product3.jpg" alt="Пример товара 3" height="220px" width="220px">
+            </a>
+            <h3><a href="product3.html">Оплётка руля</a></h3>
+            <p>Цена: 1200 руб.</p>
+        </div>
+    </div>
+
+    <div class="auth-buttons">
+        <button onclick="toggleForm('auth-form')">Авторизация</button>
+        <button onclick="toggleForm('reg-form')">Регистрация</button>
+    </div>
+
+    <div id="auth-form" class="auth-container">
+        <h3>Авторизация</h3>
+        <form onsubmit="event.preventDefault(); loginUser();">
+            <label for="auth-username">Имя пользователя</label>
+            <input type="text" id="auth-username" name="username" required>
+            <label for="auth-password">Пароль</label>
+            <input type="password" id="auth-password" name="password" required>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+
+    <div id="reg-form" class="auth-container">
+        <h3>Регистрация</h3>
+        <form onsubmit="event.preventDefault(); registerUser();">
+            <label for="reg-username">Имя пользователя</label>
+            <input type="text" id="reg-username" name="username" required>
+            <label for="reg-password">Пароль</label>
+            <input type="password" id="reg-password" name="password" required>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+
+    <div id="welcome-message" class="welcome-message"></div>
+
+    <!-- Яндекс карта -->
+    <h2 align="center">Как нас найти</h2>
+    <div id="map"></div>
+</main>
+
+
+</body>
+</html>

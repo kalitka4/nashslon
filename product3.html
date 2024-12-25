@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар 3 - Магазин Автоаксессуаров</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Стили для страницы товара */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            height: 80px; /* Размер логотипа */
+        }
+
+        h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .product-detail {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 30px;
+            gap: 20px;
+        }
+
+        .product-detail img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .product-detail div {
+            max-width: 500px;
+        }
+
+        .product-detail p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="img/slon.jpg" alt="Логотип магазина" class="logo"></a>
+    <h1>Магазин Автоаксессуаров "Наш Слон"</h1>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="cart.html">Корзина</a>
+    </nav>
+</header>
+
+<main>
+    <h2 align="center">Оплётка руля</h2>
+    <div class="product-detail">
+        <img src="img/product3.jpg" alt="Пример товара 3">
+        <div>
+            <p>Полное описание товара 3. Здесь вы можете указать материал, удобства использования, срок службы и другие характеристики, которые заинтересуют покупателя.</p>
+            <p>Цена: 1200 руб.</p>
+            <button onclick="addToCart('Оплётка руля', 1200)">Добавить в корзину</button>
+        </div>
+    </div>
+</main>
+
+
+<script>
+    function addToCart(name, price) {
+        // Получить текущую корзину из localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Добавить новый товар
+        cart.push({ name, price });
+
+        // Сохранить обновленную корзину в localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Подтверждение добавления
+        alert(`${name} добавлен в корзину.`);
+    }
+</script>
+
+</body>
+</html>
